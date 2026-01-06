@@ -63,29 +63,25 @@
                 <h2>cybersecurity & ml researcher · ph.d. aspirant</h2>
                 <div class="tags">
                     <span class="tag">cybersecurity</span>
-                    <span class="tag">neural nets</span>
-                    <span class="tag">red team</span>
+                    <span class="tag">dostoevsky</span>
+                    <span class="tag">letterboxd</span>
                     <span class="tag">llms</span>
-                    <span class="tag">research</span>
                 </div>
                 <p class="quoteblock">
-                    exploring the intersection of security, ai systems, and offensive research. 
-                    thoughts on threat intelligence, automation, and building resilient systems.
+                    exploring security & ai <i>on one front</i>. trying to find the meaning of life on another front.
                 </p>
                 <p style="font-size: .9rem; margin-top: 1rem;">
-                    contact: <a href="mailto:aaditya.r@ieee.org">aaditya.r@ieee.org</a> · 
-                    <a href="mailto:aaditya.r@nyu.edu">aaditya.r@nyu.edu</a>
+                    talk to me: <a href="https://x.aadi.zip/zuck" target="_blank">@prettyboyaaditya</a>
                 </p>
             </div>
             <div class="gallery">
-                <img src="{{ url_for('static', filename='me_2.jpg') }}" alt="aaditya" onerror="this.style.display='none'">
-                <img src="{{ url_for('static', filename='me_1.png') }}" alt="aaditya" onerror="this.style.display='none'">
-                <img src="{{ url_for('static', filename='educator_1.jpeg') }}" alt="teaching" onerror="this.style.display='none'">
-                <img src="{{ url_for('static', filename='educator_2.jpeg') }}" alt="teaching" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='img_1.jpeg') }}" alt="aaditya" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='img_2.jpeg') }}" alt="aaditya" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='img_3.jpeg') }}" alt="aaditya" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='img_4.jpeg') }}" alt="aaditya" onerror="this.style.display='none'">
             </div>
         </div>
 
-        <!-- Recent Posts Section -->
         <h2 style="margin-top: 3rem;">recent posts</h2>
         
         {% elif current_category %}
@@ -93,7 +89,7 @@
         {% endif %}
 
         <div class="paper-list">
-            {% for post in posts %}
+            {% for post in (posts[:3] if current_page == 'home' else posts) %}
             <div class="paper-item">
                 <div class="paper-meta">
                     <span class="paper-year">{{ post.created_at.strftime('%Y') }}</span>
@@ -148,9 +144,9 @@
             <span>·</span>
             <a href="https://www.linkedin.com/in/aadityarengarajan/" target="_blank">linkedin</a>
             <span>·</span>
-            <a href="mailto:aaditya.r@ieee.org">aaditya.r@ieee.org</a>
-            <span>·</span>
             <a href="mailto:aaditya.r@nyu.edu">aaditya.r@nyu.edu</a>
+            <span>·</span>
+            <a href="https://x.aadi.zip/zuck" target="_blank">ig: @prettyboyaaditya</a>
         </div>
         <div style="font-size: 0.75rem; color: gray;">
             © {{ now.year if now else '2025' }} aaditya rengarajan

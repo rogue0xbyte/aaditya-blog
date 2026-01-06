@@ -43,7 +43,7 @@ def send_otp_email(otp):
         msg = MIMEMultipart()
         msg['From'] = SMTP_EMAIL
         msg['To'] = ADMIN_EMAIL
-        msg['Subject'] = 'Admin Login OTP'
+        msg['Subject'] = 'Blog Admin Login OTP'
         
         body = f'Your OTP for admin login is: {otp}\n\nThis OTP is valid for 10 minutes.'
         msg.attach(MIMEText(body, 'plain'))
@@ -56,7 +56,7 @@ def send_otp_email(otp):
         server.quit()
         return True
     except Exception as e:
-        print(f"Error sending email: {e}")
+        print(f"Error sending OTP: {e}")
         return False
 
 def login_required(f):
@@ -161,10 +161,10 @@ def admin_login():
             # Send OTP
             if send_otp_email(otp):
                 session['otp_verified'] = False
-                flash('OTP sent to your email!', 'success')
+                flash('OTP sent to your device!', 'success')
                 return redirect(url_for('verify_otp'))
             else:
-                flash('Error sending OTP. Check email configuration.', 'error')
+                flash('Error sending OTP. Check device configuration.', 'error')
         else:
             flash('Invalid password', 'error')
     
@@ -357,5 +357,5 @@ def preview_markdown():
 
 handler = Mangum(app)
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
