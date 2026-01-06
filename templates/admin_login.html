@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}"/>
+</head>
+<body class="modern">
+    <svg class="mesh" viewBox="0 0 1584 396" preserveAspectRatio="none">
+        <g>
+            <line x1="400" y1="60" x2="520" y2="150"/>
+            <line x1="520" y1="150" x2="680" y2="80"/>
+            <line x1="400" y1="60" x2="680" y2="80"/>
+            <line x1="680" y1="80" x2="900" y2="40"/>
+            <line x1="520" y1="150" x2="820" y2="230"/>
+            <line x1="820" y1="230" x2="1020" y2="120"/>
+            <line x1="1020" y1="120" x2="1220" y2="200"/>
+            <line x1="900" y1="40" x2="1020" y2="120"/>
+            <circle cx="400" cy="60" r="6"/>
+            <circle cx="520" cy="150" r="6"/>
+            <circle cx="680" cy="80" r="6"/>
+            <circle cx="900" cy="40" r="6"/>
+            <circle cx="820" cy="230" r="6"/>
+            <circle cx="1020" cy="120" r="6"/>
+            <circle cx="1220" cy="200" r="6"/>
+        </g>
+    </svg>
+
+    <section class="active" style="max-width: 500px; margin: 5rem auto;">
+        <h2>admin login</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" style="padding: 1rem; margin-bottom: 1rem; border: var(--border); background: {% if category == 'error' %}#ffebee{% else %}#e8f5e9{% endif %}; border-radius: 4px;">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+                <label for="password" style="display: block; margin-bottom: .5rem; font-family: 'IBM Plex Mono', monospace; font-size: .9rem;">password</label>
+                <input type="password" 
+                       id="password" 
+                       name="password" 
+                       required
+                       style="width: 100%; padding: .75rem; border: var(--border); border-radius: 4px; font-family: 'Space Grotesk', sans-serif; font-size: 1rem; background: var(--bg); color: var(--fg);">
+            </div>
+
+            <button type="submit" 
+                    style="padding: .75rem 1.5rem; border: var(--border); background: var(--fg); color: var(--bg); cursor: pointer; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .9rem; text-transform: lowercase; transition: .3s;">
+                send otp
+            </button>
+        </form>
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="{{ url_for('home') }}" style="font-size: .85rem; font-family: 'IBM Plex Mono', monospace;">← back to blog</a>
+        </div>
+    </section>
+</body>
+</html>

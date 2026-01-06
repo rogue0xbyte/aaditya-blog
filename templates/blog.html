@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>aaditya rengarajan · blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}"/>
+</head>
+<body class="modern">
+    <!-- mesh for modern -->
+    <svg class="mesh" viewBox="0 0 1584 396" preserveAspectRatio="none">
+        <g>
+            <line x1="400" y1="60" x2="520" y2="150"/>
+            <line x1="520" y1="150" x2="680" y2="80"/>
+            <line x1="400" y1="60" x2="680" y2="80"/>
+            <line x1="680" y1="80" x2="900" y2="40"/>
+            <line x1="520" y1="150" x2="820" y2="230"/>
+            <line x1="820" y1="230" x2="1020" y2="120"/>
+            <line x1="1020" y1="120" x2="1220" y2="200"/>
+            <line x1="900" y1="40" x2="1020" y2="120"/>
+            <circle cx="400" cy="60" r="6"/>
+            <circle cx="520" cy="150" r="6"/>
+            <circle cx="680" cy="80" r="6"/>
+            <circle cx="900" cy="40" r="6"/>
+            <circle cx="820" cy="230" r="6"/>
+            <circle cx="1020" cy="120" r="6"/>
+            <circle cx="1220" cy="200" r="6"/>
+        </g>
+        <g>
+            <text x="388" y="55">blog</text>
+            <text x="508" y="145">thoughts</text>
+            <text x="668" y="75">tech</text>
+            <text x="888" y="35">research</text>
+            <text x="808" y="225">ai</text>
+            <text x="1008" y="115">cyber</text>
+            <text x="1208" y="195">security</text>
+        </g>
+    </svg>
+
+    <!-- nav -->
+    <nav>
+        <h3>aaditya rengarajan</h3>
+        <ul>
+            <li><a href="{{ url_for('home') }}" {% if current_page == 'home' %}style="border-color: var(--accent); color: var(--accent)"{% endif %}>home</a></li>
+            {% for category in categories %}
+            <li><a href="{{ url_for('category_page', category_id=category._id) }}" 
+                   {% if current_category and current_category._id == category._id %}style="border-color: var(--accent); color: var(--accent)"{% endif %}>
+                {{ category.name }}
+            </a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <!-- content -->
+    <section class="active">
+        {% if current_page == 'home' %}
+        <!-- Home Page Hero -->
+        <div class="hero">
+            <div class="hero-text">
+                <h1>welcome to my blog</h1>
+                <h2>cybersecurity & ml researcher · ph.d. aspirant</h2>
+                <div class="tags">
+                    <span class="tag">cybersecurity</span>
+                    <span class="tag">neural nets</span>
+                    <span class="tag">red team</span>
+                    <span class="tag">llms</span>
+                    <span class="tag">research</span>
+                </div>
+                <p class="quoteblock">
+                    exploring the intersection of security, ai systems, and offensive research. 
+                    thoughts on threat intelligence, automation, and building resilient systems.
+                </p>
+                <p style="font-size: .9rem; margin-top: 1rem;">
+                    contact: <a href="mailto:aaditya.r@ieee.org">aaditya.r@ieee.org</a> · 
+                    <a href="mailto:aaditya.r@nyu.edu">aaditya.r@nyu.edu</a>
+                </p>
+            </div>
+            <div class="gallery">
+                <img src="{{ url_for('static', filename='me_2.jpg') }}" alt="aaditya" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='me_1.png') }}" alt="aaditya" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='educator_1.jpeg') }}" alt="teaching" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='educator_2.jpeg') }}" alt="teaching" onerror="this.style.display='none'">
+            </div>
+        </div>
+
+        <!-- Recent Posts Section -->
+        <h2 style="margin-top: 3rem;">recent posts</h2>
+        
+        {% elif current_category %}
+        <h2>{{ current_category.name }}</h2>
+        {% endif %}
+
+        <div class="paper-list">
+            {% for post in posts %}
+            <div class="paper-item">
+                <div class="paper-meta">
+                    <span class="paper-year">{{ post.created_at.strftime('%Y') }}</span>
+                    <span class="paper-title">
+                        <a href="{{ url_for('view_post', post_id=post._id) }}" style="text-decoration: none; color: inherit;">
+                            {{ post.title }}
+                        </a>
+                    </span>
+                </div>
+                
+                {% if post.tagline %}
+                <div style="font-size: .95rem; margin-bottom: .5rem; font-style: italic;">
+                    {{ post.tagline }}
+                </div>
+                {% endif %}
+                
+                <div class="paper-abstract">
+                    {{ post.abstract }}
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: .8rem; color: #666;">
+                    <div>
+                        {% if post.category_name %}
+                        <span class="keyword">{{ post.category_name }}</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <span style="font-family: 'IBM Plex Mono', monospace;">
+                            {{ post.created_at.strftime('%b %d, %Y') }}
+                            {% if post.updated_at and post.updated_at != post.created_at %}
+                            · updated {{ post.updated_at.strftime('%b %d, %Y') }}
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="paper-links" style="margin-top: 1rem;">
+                    <a href="{{ url_for('view_post', post_id=post._id) }}">read more →</a>
+                </div>
+            </div>
+            {% endfor %}
+            
+            {% if not posts %}
+            <p style="text-align: center; color: #666; padding: 2rem;">no posts yet in this category.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; align-items: center; font-size: 0.9rem; margin-bottom: 1rem;">
+            <a href="https://aadi.zip" target="_blank" style="font-family: 'IBM Plex Mono', monospace;">← back to main site</a>
+            <span>·</span>
+            <a href="https://www.linkedin.com/in/aadityarengarajan/" target="_blank">linkedin</a>
+            <span>·</span>
+            <a href="mailto:aaditya.r@ieee.org">aaditya.r@ieee.org</a>
+            <span>·</span>
+            <a href="mailto:aaditya.r@nyu.edu">aaditya.r@nyu.edu</a>
+        </div>
+        <div style="font-size: 0.75rem; color: gray;">
+            © {{ now.year if now else '2025' }} aaditya rengarajan
+        </div>
+    </footer>
+</body>
+</html>

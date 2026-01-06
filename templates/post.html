@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ post.title }} · aaditya rengarajan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}"/>
+</head>
+<body class="modern">
+    <!-- mesh for modern -->
+    <svg class="mesh" viewBox="0 0 1584 396" preserveAspectRatio="none">
+        <g>
+            <line x1="400" y1="60" x2="520" y2="150"/>
+            <line x1="520" y1="150" x2="680" y2="80"/>
+            <line x1="400" y1="60" x2="680" y2="80"/>
+            <line x1="680" y1="80" x2="900" y2="40"/>
+            <line x1="520" y1="150" x2="820" y2="230"/>
+            <line x1="820" y1="230" x2="1020" y2="120"/>
+            <line x1="1020" y1="120" x2="1220" y2="200"/>
+            <line x1="900" y1="40" x2="1020" y2="120"/>
+            <circle cx="400" cy="60" r="6"/>
+            <circle cx="520" cy="150" r="6"/>
+            <circle cx="680" cy="80" r="6"/>
+            <circle cx="900" cy="40" r="6"/>
+            <circle cx="820" cy="230" r="6"/>
+            <circle cx="1020" cy="120" r="6"/>
+            <circle cx="1220" cy="200" r="6"/>
+        </g>
+    </svg>
+
+    <!-- nav -->
+    <nav>
+        <h3>aaditya rengarajan · blog</h3>
+        <ul>
+            <li><a href="{{ url_for('home') }}">home</a></li>
+            {% for category in categories %}
+            <li><a href="{{ url_for('category_page', category_id=category._id) }}">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <!-- post content -->
+    <section class="active">
+        <div style="margin-bottom: 1rem;">
+            <a href="{{ url_for('home') }}" style="font-size: .85rem; font-family: 'IBM Plex Mono', monospace;">← back to all posts</a>
+        </div>
+
+        <article class="post-full">
+            <header class="post-header">
+                <h1>{{ post.title }}</h1>
+                
+                {% if post.tagline %}
+                <p class="post-tagline">{{ post.tagline }}</p>
+                {% endif %}
+                
+                <div class="post-meta">
+                    {% if post.category_name %}
+                    <span class="keyword">{{ post.category_name }}</span>
+                    {% endif %}
+                    <span>·</span>
+                    <span>{{ post.created_at.strftime('%B %d, %Y') }}</span>
+                    {% if post.updated_at and post.updated_at != post.created_at %}
+                    <span>·</span>
+                    <span>updated {{ post.updated_at.strftime('%B %d, %Y') }}</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            <div class="post-content">
+                {{ post.content_html|safe }}
+            </div>
+        </article>
+
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: var(--border);">
+            <a href="{{ url_for('home') }}" style="font-size: .85rem; font-family: 'IBM Plex Mono', monospace;">← back to all posts</a>
+        </div>
+    </section>
+
+    <footer>
+        <div style="font-size: 0.8rem; color: gray;">
+            © {{ now.year if now else '2025' }} aaditya rengarajan
+        </div>
+    </footer>
+</body>
+</html>

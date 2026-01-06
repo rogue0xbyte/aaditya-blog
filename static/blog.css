@@ -1,0 +1,245 @@
+/* Additional styles for blog functionality */
+
+/* Post view styles */
+.post-full {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: var(--border);
+}
+
+.post-header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    text-transform: lowercase;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.post-tagline {
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.85rem;
+    font-family: 'IBM Plex Mono', monospace;
+    color: #666;
+}
+
+.post-content {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-transform: lowercase;
+    font-weight: 700;
+}
+
+.post-content h1 {
+    font-size: 2rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 1rem;
+}
+
+.post-content h2 {
+    font-size: 1.5rem;
+}
+
+.post-content h3 {
+    font-size: 1.25rem;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+}
+
+.post-content a:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+}
+
+.post-content ul,
+.post-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-content blockquote {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    border-left: 4px solid var(--accent);
+    font-style: italic;
+    color: #666;
+}
+
+.post-content code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9em;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+body.dark .post-content code {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.post-content pre {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border: var(--border);
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+body.dark .post-content pre {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.post-content pre code {
+    background: none;
+    padding: 0;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    border: var(--border);
+    border-radius: 4px;
+}
+
+.post-content table {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.post-content table th,
+.post-content table td {
+    padding: 0.75rem;
+    border: var(--border);
+    text-align: left;
+}
+
+.post-content table th {
+    background: rgba(0, 0, 0, 0.05);
+    font-weight: 700;
+}
+
+body.dark .post-content table th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.post-content hr {
+    margin: 3rem 0;
+    border: none;
+    border-top: var(--border);
+}
+
+/* Admin-specific styles */
+.tab-btn {
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.dark .tab-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.alert {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Form input focus styles */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .post-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .post-content {
+        font-size: 0.95rem;
+    }
+    
+    .post-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .post-content h2 {
+        font-size: 1.25rem;
+    }
+    
+    .post-content h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Button hover effects */
+button:hover,
+input[type="submit"]:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+button:active,
+input[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

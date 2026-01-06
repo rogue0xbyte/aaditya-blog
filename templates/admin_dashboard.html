@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}"/>
+</head>
+<body class="modern">
+    <svg class="mesh" viewBox="0 0 1584 396" preserveAspectRatio="none">
+        <g>
+            <line x1="400" y1="60" x2="520" y2="150"/>
+            <line x1="520" y1="150" x2="680" y2="80"/>
+            <line x1="400" y1="60" x2="680" y2="80"/>
+            <line x1="680" y1="80" x2="900" y2="40"/>
+            <circle cx="400" cy="60" r="6"/>
+            <circle cx="520" cy="150" r="6"/>
+            <circle cx="680" cy="80" r="6"/>
+            <circle cx="900" cy="40" r="6"/>
+        </g>
+    </svg>
+
+    <nav>
+        <h3>admin dashboard</h3>
+        <ul>
+            <li><a href="{{ url_for('home') }}">view blog</a></li>
+            <li><a href="{{ url_for('admin_logout') }}">logout</a></li>
+        </ul>
+    </nav>
+
+    <section class="active">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" style="padding: 1rem; margin-bottom: 1rem; border: var(--border); background: {% if category == 'error' %}#ffebee{% else %}#e8f5e9{% endif %}; border-radius: 4px;">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Categories Section -->
+        <div style="margin-bottom: 3rem;">
+            <h2>categories</h2>
+            
+            <details style="max-width: 100%; margin-bottom: 1.5rem;">
+                <summary>+ create new category</summary>
+                <form method="POST" action="{{ url_for('create_category') }}" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="font-family: 'IBM Plex Mono', monospace; font-size: .85rem;">name</label>
+                        <input type="text" name="name" required style="width: 100%; padding: .5rem; border: var(--border); border-radius: 4px; margin-top: .25rem; font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--fg);">
+                    </div>
+                    <div>
+                        <label style="font-family: 'IBM Plex Mono', monospace; font-size: .85rem;">
+                            <input type="checkbox" name="visible" checked> visible
+                        </label>
+                    </div>
+                    <button type="submit" style="padding: .5rem 1rem; border: var(--border); background: var(--fg); color: var(--bg); cursor: pointer; border-radius: 4px; font-family: 'IBM Plex Mono', monospace;">create</button>
+                </form>
+            </details>
+
+            <div class="paper-list">
+                {% for category in categories %}
+                <div class="paper-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: .5rem;">{{ category.name }}</h3>
+                            <span class="keyword">{% if category.visible %}visible{% else %}hidden{% endif %}</span>
+                        </div>
+                        <div style="display: flex; gap: .5rem;">
+                            <button onclick="toggleEdit('cat-{{ category._id }}')" style="padding: .4rem .8rem; border: var(--border); background: var(--bg); cursor: pointer; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem;">edit</button>
+                            <form method="POST" action="{{ url_for('delete_category', category_id=category._id) }}" style="display: inline;" onsubmit="return confirm('Delete this category and all its posts?');">
+                                <button type="submit" style="padding: .4rem .8rem; border: var(--border); background: #ffebee; cursor: pointer; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem;">delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div id="cat-{{ category._id }}" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: var(--border);">
+                        <form method="POST" action="{{ url_for('edit_category', category_id=category._id) }}" style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div>
+                                <label style="font-family: 'IBM Plex Mono', monospace; font-size: .85rem;">name</label>
+                                <input type="text" name="name" value="{{ category.name }}" required style="width: 100%; padding: .5rem; border: var(--border); border-radius: 4px; margin-top: .25rem; font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--fg);">
+                            </div>
+                            <div>
+                                <label style="font-family: 'IBM Plex Mono', monospace; font-size: .85rem;">
+                                    <input type="checkbox" name="visible" {% if category.visible %}checked{% endif %}> visible
+                                </label>
+                            </div>
+                            <button type="submit" style="padding: .5rem 1rem; border: var(--border); background: var(--fg); color: var(--bg); cursor: pointer; border-radius: 4px; font-family: 'IBM Plex Mono', monospace;">save</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Posts Section -->
+        <div>
+            <h2>posts</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <a href="{{ url_for('create_post') }}" style="display: inline-block; padding: .75rem 1.5rem; border: var(--border); background: var(--fg); color: var(--bg); text-decoration: none; border-radius: 4px; font-family: 'IBM Plex Mono', monospace;">+ create new post</a>
+            </div>
+
+            <div class="paper-list">
+                {% for post in posts %}
+                <div class="paper-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: .5rem;">
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: .25rem;">{{ post.title }}</h3>
+                            {% if post.tagline %}
+                            <p style="font-size: .9rem; font-style: italic; margin-bottom: .5rem;">{{ post.tagline }}</p>
+                            {% endif %}
+                        </div>
+                        <div style="display: flex; gap: .5rem;">
+                            <a href="{{ url_for('edit_post', post_id=post._id) }}" style="padding: .4rem .8rem; border: var(--border); background: var(--bg); text-decoration: none; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem;">edit</a>
+                            <form method="POST" action="{{ url_for('delete_post', post_id=post._id) }}" style="display: inline;" onsubmit="return confirm('Delete this post?');">
+                                <button type="submit" style="padding: .4rem .8rem; border: var(--border); background: #ffebee; cursor: pointer; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .8rem;">delete</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div style="font-size: .85rem; color: #666;">
+                        <span class="keyword">{{ post.category_name }}</span>
+                        <span class="keyword">{% if post.visible %}visible{% else %}hidden{% endif %}</span>
+                        <span style="margin-left: .5rem;">{{ post.created_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleEdit(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
