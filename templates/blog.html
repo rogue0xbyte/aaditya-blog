@@ -44,6 +44,8 @@
         <h3>aaditya rengarajan</h3>
         <ul>
             <li><a href="{{ url_for('home') }}" {% if current_page == 'home' %}style="border-color: var(--accent); color: var(--accent)"{% endif %}>home</a></li>
+            <li><a href="{{ url_for('books') }}" {% if current_page == 'books' %}style="border-color: var(--accent); color: var(--accent)"{% endif %}>books</a></li>
+            <li><a href="{{ url_for('films') }}" {% if current_page == 'films' %}style="border-color: var(--accent); color: var(--accent)"{% endif %}>films</a></li>
             {% for category in categories %}
             <li><a href="{{ url_for('category_page', category_id=category._id) }}" 
                    {% if current_category and current_category._id == category._id %}style="border-color: var(--accent); color: var(--accent)"{% endif %}>
@@ -142,11 +144,9 @@
         <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; align-items: center; font-size: 0.9rem; margin-bottom: 1rem;">
             <a href="https://aadi.zip" target="_blank" style="font-family: 'IBM Plex Mono', monospace;">← back to main site</a>
             <span>·</span>
-            <a href="https://www.linkedin.com/in/aadityarengarajan/" target="_blank">linkedin</a>
-            <span>·</span>
-            <a href="mailto:aaditya.r@nyu.edu">aaditya.r@nyu.edu</a>
-            <span>·</span>
             <a href="https://x.aadi.zip/zuck" target="_blank">ig: @prettyboyaaditya</a>
+            <span>·</span>
+            <a href="http://music.apple.com/profile/prettyboyaadi" target="_blank">apple music</a>
         </div>
         <div style="font-size: 0.75rem; color: gray;">
             © {{ now.year if now else '2025' }} aaditya rengarajan

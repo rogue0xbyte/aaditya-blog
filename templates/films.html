@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>aaditya rengarajan · films</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}"/>
+</head>
+<body class="modern">
+    <!-- mesh for modern -->
+    <svg class="mesh" viewBox="0 0 1584 396" preserveAspectRatio="none">
+        <g>
+            <line x1="400" y1="60" x2="520" y2="150"/>
+            <line x1="520" y1="150" x2="680" y2="80"/>
+            <line x1="400" y1="60" x2="680" y2="80"/>
+            <line x1="680" y1="80" x2="900" y2="40"/>
+            <line x1="520" y1="150" x2="820" y2="230"/>
+            <line x1="820" y1="230" x2="1020" y2="120"/>
+            <line x1="1020" y1="120" x2="1220" y2="200"/>
+            <line x1="900" y1="40" x2="1020" y2="120"/>
+            <circle cx="400" cy="60" r="6"/>
+            <circle cx="520" cy="150" r="6"/>
+            <circle cx="680" cy="80" r="6"/>
+            <circle cx="900" cy="40" r="6"/>
+            <circle cx="820" cy="230" r="6"/>
+            <circle cx="1020" cy="120" r="6"/>
+            <circle cx="1220" cy="200" r="6"/>
+        </g>
+        <g>
+            <text x="388" y="55">films</text>
+            <text x="508" y="145">cinema</text>
+            <text x="668" y="75">reviews</text>
+            <text x="888" y="35">movies</text>
+            <text x="808" y="225">watching</text>
+            <text x="1008" y="115">letterboxd</text>
+            <text x="1208" y="195">ratings</text>
+        </g>
+    </svg>
+
+    <!-- nav -->
+    <nav>
+        <h3>aaditya rengarajan</h3>
+        <ul>
+            <li><a href="{{ url_for('home') }}">home</a></li>
+            <li><a href="{{ url_for('books') }}">books</a></li>
+            <li><a href="{{ url_for('films') }}" style="border-color: var(--accent); color: var(--accent)">films</a></li>
+            {% for category in categories %}
+            <li><a href="{{ url_for('category_page', category_id=category._id) }}">
+                {{ category.name }}
+            </a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <!-- content -->
+    <section class="active">
+        <div class="books-header">
+            <h1 style="transform: scale(0.7);">my film diary</h1>
+            <p class="books-subtitle" style="margin-top:-1.5em;margin-bottom:-1.5em">
+                tracking my cinema journey on <a href="https://letterboxd.com/prettyboiiii" target="_blank" rel="noopener">letterboxd</a>
+            </p><br/>
+            <p style="transform: scale(0.7);margin-bottom:-1.5em">*i only recently started a letterboxd, of course i've watched the classics and a whole lot of movies not mentioned here.</p>
+        </div>
+
+        {% if error %}
+        <div class="books-error">
+            <p>couldn't load films from letterboxd. please try again later.</p>
+        </div>
+        {% endif %}
+
+        <!-- All Activity -->
+        <div class="books-section">
+            {% if films %}
+            <div class="paper-list">
+                {% for film in films %}
+                <div class="paper-item">
+                    <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
+                        <!-- Poster -->
+                        <div style="flex-shrink: 0; width: 120px;">
+                            {% if film.poster_url %}
+                            <img src="{{ film.poster_url }}" alt="{{ film.film_title }}" 
+                                 style="width: 100%; border-radius: 4px; border: var(--border);">
+                            {% else %}
+                            <div style="width: 120px; height: 180px; background: linear-gradient(135deg, var(--accent), #d44); 
+                                        border-radius: 4px; border: var(--border); display: flex; align-items: center; 
+                                        justify-content: center; color: white; font-size: 2rem; font-weight: 700;">
+                                {{ film.film_title[0] if film.film_title else '?' }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Film Info -->
+                        <div style="flex: 1; min-width: 0;">
+                            <div class="paper-meta" style="margin-bottom: 0.5rem;">
+                                <span class="paper-year">{{ film.film_year if film.film_year else '????' }}</span>
+                                <span class="paper-title">
+                                    <a href="{{ film.link }}" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+                                        {{ film.film_title }}
+                                    </a>
+                                </span>
+                            </div>
+
+                            <!-- Rating -->
+                            {% if film.rating %}
+                            <div style="font-size: 1.3rem; color: var(--accent); margin: 0.5rem 0; letter-spacing: 2px;">
+                                {{ film.stars_display }}
+                            </div>
+                            {% endif %}
+
+                            <!-- Type and Date -->
+                            <div style="font-size: 0.85rem; font-family: 'IBM Plex Mono', monospace; color: #666; margin: 0.5rem 0;">
+                                {% if film.is_review %}
+                                <span class="keyword">review</span>
+                                {% else %}
+                                <span class="keyword">watch</span>
+                                {% endif %}
+                                {% if film.is_rewatch %}
+                                <span class="keyword">rewatch</span>
+                                {% endif %}
+                                {% if film.watched_date %}
+                                · watched {{ film.watched_date }}
+                                {% endif %}
+                            </div>
+
+                            <!-- Review Text -->
+                            {% if film.review_text %}
+                            <div class="paper-abstract" style="margin-top: 1rem;">
+                                {{ film.review_text }}
+                            </div>
+                            {% endif %}
+
+                            <!-- Link -->
+                            <div class="paper-links" style="margin-top: 1rem;">
+                                <a href="{{ film.link }}" target="_blank" rel="noopener">view on letterboxd →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="empty-shelf">no recent film activity</p>
+            {% endif %}
+        </div>
+
+        <!-- Stats Summary -->
+        {% if films %}
+        <div style="text-align: center; padding: 2rem; border: var(--border); border-radius: 8px; margin-top: 2rem;">
+            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; color: #666;">
+                total entries: <strong>{{ films|length }}</strong>
+                · reviews: <strong>{{ reviews|length }}</strong>
+            </p>
+        </div>
+        {% endif %}
+    </section>
+
+    <footer>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; align-items: center; font-size: 0.9rem; margin-bottom: 1rem;">
+            <a href="https://aadi.zip" target="_blank" style="font-family: 'IBM Plex Mono', monospace;">← back to main site</a>
+            <span>·</span>
+            <a href="https://www.linkedin.com/in/aadityarengarajan/" target="_blank">linkedin</a>
+            <span>·</span>
+            <a href="mailto:aaditya.r@nyu.edu">aaditya.r@nyu.edu</a>
+            <span>·</span>
+            <a href="https://x.aadi.zip/zuck" target="_blank">ig: @prettyboyaaditya</a>
+        </div>
+        <div style="font-size: 0.75rem; color: gray;">
+            © {{ now.year if now else '2025' }} aaditya rengarajan
+        </div>
+    </footer>
+</body>
+</html>

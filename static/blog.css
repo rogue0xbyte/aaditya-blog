@@ -243,3 +243,214 @@ input[type="submit"]:active {
 * {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+.books-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: var(--border);
+}
+
+.books-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-transform: lowercase;
+    margin-bottom: 1rem;
+}
+
+.books-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.books-subtitle a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+}
+
+.books-subtitle a:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+}
+
+.books-error {
+    text-align: center;
+    padding: 2rem;
+    margin: 2rem 0;
+    border: var(--border);
+    border-radius: 8px;
+    background: rgba(255, 85, 0, 0.1);
+}
+
+.books-error p {
+    color: #666;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.books-section {
+    margin-bottom: 4rem;
+    text-transform: lowercase!important;
+}
+
+.books-section h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    text-transform: lowercase;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 1rem;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+.book-card {
+    border: var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: var(--bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .book-card:hover {
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
+}
+
+.book-cover-wrapper {
+    width: 100%;
+    aspect-ratio: 2/3;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: 4px;
+    border: var(--border);
+}
+
+.book-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-cover {
+    transform: scale(1.05);
+}
+
+.book-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent), #d44);
+    color: white;
+    font-size: 4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.book-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: lowercase;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    color: var(--fg);
+}
+
+.book-subtitle {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #888;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.book-authors {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.75rem;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.book-date {
+    font-size: 0.75rem;
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 0.5rem;
+}
+
+.book-rating {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin: 0.75rem 0;
+    letter-spacing: 2px;
+}
+
+.book-review {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.85rem;
+    color: #555;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+body.dark .book-review {
+    border-top-color: rgba(255, 255, 255, 0.1);
+    color: #aaa;
+}
+
+.empty-shelf {
+    text-align: center;
+    color: #999;
+    font-size: 1rem;
+    padding: 3rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .books-header h1 {
+        font-size: 2rem;
+    }
+    
+    .books-section h2 {
+        font-size: 1.4rem;
+    }
+    
+    .book-card {
+        padding: 1rem;
+    }
+    
+    .book-title {
+        font-size: 1rem;
+    }
+}
